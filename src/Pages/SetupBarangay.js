@@ -248,6 +248,7 @@ function SetupBarangay() {
               await ZoneDataService.addZone(newZone[i],newBarangay)  
             } 
             console.log("success.")
+            alert("Barangay has been set-up.")
             
         } catch (err) {
             console.log(err);

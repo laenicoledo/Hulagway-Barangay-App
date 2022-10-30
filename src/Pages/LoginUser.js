@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { UserAuth } from '../AuthContext.js';
 import {useNavigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,13 +9,22 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import BarangayDataService from "../Services/barangay-service.js";
+import {collection, getDoc, doc} from "firebase/firestore";
+import { db, auth } from '../firebase.js';
+
+//get collections in encoding year
+const yearRef = collection(db, "encoding_year");
+
+//get collection names user from document 2022
+const userRef = collection(doc(yearRef,"2022"), "users")
+
 
 function LoginUser() {
 
     //state variables
     const [enteredEmail, setEmail] = useState('');
     const [enteredPassword, setPassword] = useState('');
-    const [error, setError] = useState('');
     const { signIn } = UserAuth();
 
     //change handlers
@@ -24,19 +33,43 @@ function LoginUser() {
 
     //routing
     let navigate = useNavigate();
-    
+
+    //function to check if current user barangay desig exist in database
+    const checkUserBarangay = async () => {
+
+      const idRef = doc(userRef, auth.currentUser.uid)
+
+      try {
+        const userData = await getDoc(idRef);
+        const barangay = await BarangayDataService.getBarangayByName(`${userData.data().city_desig}-${userData.data().brgy_desig}`)
+        
+        if(barangay.exists){
+          localStorage.setItem('brgy', barangay.data().barangay_name)
+          console.log("Barangay exists. View data.")
+        }else{
+           alert("Your barangay has not been set-up. Please go to Setup Barangay tab.") 
+        }
+      }catch (e) {
+        return console.log(e);
+      }
+    }
+
+    //login button
     const submitHandler = async (e) => {
-      e.preventDefault();
-      setError('')
+        e.preventDefault()
+
         try {
           await signIn(enteredEmail, enteredPassword)
-          //localStorage.setItem("name", response.data.token);
           navigate('/dashboard')
+          checkUserBarangay()
         } catch (e) {
-          setError(e.message)
+          //setError(e.message)
           console.log(e.message)
           alert('No user found. Contact admin for account approval.')
         }
+
+        setEmail('');
+        setPassword('');
     };
   
   return (

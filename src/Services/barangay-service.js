@@ -3,13 +3,14 @@ import {collection, where, query, getDocs, getDoc, addDoc, setDoc, updateDoc, de
 
 const yearRef = collection(db, "encoding_year");
 const barangayRef = collection(doc(yearRef,"2022"),"barangay")
+//const idRef = doc(userRef, auth.currentUser.uid)
 
 //const brgyQuery = query(barangayRef, where("barangay_name", "==",""))
 
 class BarangayDataService {
 
   addBarangay = (newBarangay) => {
-    return setDoc(doc(barangayRef, `${newBarangay.enteredZipCode.toString()}-${newBarangay.enteredBarangay.toString()}`), {
+    return setDoc(doc(barangayRef, `${newBarangay.enteredCity.toString()}-${newBarangay.enteredBarangay.toString()}`), {
         barangay_name: newBarangay.enteredBarangay,
         city: newBarangay.enteredCity,
         classification: newBarangay.enteredClassification,
@@ -29,9 +30,10 @@ class BarangayDataService {
   //    return deleteDoc(encoderDoc);
   // };
 
-   // getBarangayByName = (newBarangay) => {
-   //    return getDocs(query(barangayRef, where("barangay_name", "==", newBarangay.enteredName)));
-   // };
+   getBarangayByName = (barangayName) => {
+       //return getDocs(query(barangayRef, where("barangay_name", "==", barangayName)));
+       return getDoc(doc(barangayRef, barangayName))
+   };
 
    //getBarangay = () => {
    //  return getDocs(barangayRef);

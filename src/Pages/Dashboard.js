@@ -1,12 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet.css';
 import Nav from 'react-bootstrap/Nav';
 import HeaderLogo from '../HeaderLogo.js'
 import Widgets from '../Widgets.js'
 import Profile from '../Profile.js'
+import BarangayDataService from "../Services/barangay-service.js";
+
+
 
 function Dashboard() {
+
+   //STATE VARIABLES
+  const [barangayList, setBarangayList] = useState([{}])
+
+  //function to check if current user barangay desig exist in database
+  const checkUserBarangay = async () => {
+
+      try {
+         const barangay = localStorage.getItem("brgy")
+        
+         if(barangay != null){
+       
+         }else{
+           console.log("Need barangay first.")
+         }
+     }catch (e) {
+         return console.log(e);
+     }
+  }
+    //to display the data from database
+    
+    //useEffect(() => { checkUserBarangay(); }, []);
 
     return(
         <div className= "dashboard">
@@ -42,7 +67,14 @@ function Dashboard() {
           </aside>
           <br/>
           <main>
-            <Profile/>
+              {/*{barangayList.map((doc,index) => {
+                                return (
+                            <tbody>
+                                <tr key={doc.id}>
+                                    <td>{doc.city}</td>
+                                </tr>                            
+                            </tbody>
+              )})}*/}
           </main>
         </div>
     );
