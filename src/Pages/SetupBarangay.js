@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet.css';
-import Nav from 'react-bootstrap/Nav';
-import HeaderLogo from '../HeaderLogo.js'
-import Widgets from '../Widgets.js'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -14,8 +11,6 @@ import BarangayDataService from "../Services/barangay-service.js";
 import ZoneDataService from "../Services/zone-service.js";
 
 function SetupBarangay() {
-
-    //const [barangayList, setBarangayList] = useState([])
 
     //npm select phil address
     const [regionData, setRegion] = useState([]);
@@ -46,7 +41,7 @@ function SetupBarangay() {
     const [enteredBoundaries, setBoundaries] = useState({east: '', north: '', west: '', south: ''})
     //for barangay council and personnel
     const [enteredCaptain, setEnteredCaptain] = useState([{name:[], maleTotal: '', femaleTotal: '', total:''}])
-    const [enteredKagawad, setEnteredKagawad] = useState([{maleTotal: '', femaleTotal: '', total:''}])
+    //const [enteredKagawad, setEnteredKagawad] = useState([{maleTotal: '', femaleTotal: '', total:''}])
     const [kagawadNames, setKagawadNames] = useState([{}])
     //for road network options
     const [switchRoad, setSwitchRoad] = useState(false);
@@ -163,10 +158,10 @@ function SetupBarangay() {
         setEnteredCaptain({...enteredCaptain, [name]: value})
     }
 
-    const handleKagawad = (event) => {
-        const {name, value} = event.target
-        setEnteredKagawad({...enteredKagawad, [name]: value})
-    }
+    // const handleKagawad = (event) => {
+    //     const {name, value} = event.target
+    //     setEnteredKagawad({...enteredKagawad, [name]: value})
+    // }
 
     const handleKagawadNames = (index, event) => {
        let kagawadNameData = [...kagawadNames];
@@ -225,13 +220,6 @@ function SetupBarangay() {
         setKagawadNames([...kagawadNames, newKagawadField])
     }
 
-    // const getBarangay = async () => {
-    //     const data = await BarangayDataService.getBarangay();
-    //     //console.log(data.docs);
-    //      setBarangayList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    //      console.log("found:"+data);
-    // };
-
     //for form overall submit button
     const submitHandler = async (e) => {
         
@@ -248,6 +236,7 @@ function SetupBarangay() {
               await ZoneDataService.addZone(newZone[i],newBarangay)  
             } 
             console.log("success.")
+            //localStorage.setItem('brgy',`${userData.data().city_desig}-${userData.data().brgy_desig}`)
             alert("Barangay has been set-up.")
             
         } catch (err) {
@@ -274,45 +263,9 @@ function SetupBarangay() {
         //console.log(switchRoad)
     }
 
-
-
     return(
-        <div className= "dashboard">
-          <header>
-            <HeaderLogo/>
-          </header>
-          <br/><br/><br/>
-          <nav>
-            <Nav variant="pills" defaultActiveKey="/setup-barangay" fill>
-                <Nav.Item>
-                    <Nav.Link href="/dashboard">Community Profile</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/purok-profile">Purok Profile</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/household-profile">Household Profile</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/resident-profile">Resident Profile</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/setup-barangay">Setup Barangay</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/report">Reports</Nav.Link>
-                </Nav.Item>
-                </Nav>
-          
-          </nav>
-          <aside>
-            <Widgets/>
-            <br/><br/>
-          
-          </aside>
-          <br/>
-          <main>
-            <div className="setup-form">
+        
+        <div className="setup-form">
                 <h4>Welcome! Setup your barangay below. </h4><br/>
                 <Form>
               {/*General Information*/}
@@ -1730,8 +1683,6 @@ function SetupBarangay() {
                   <Button type="submit" onClick={submitHandler}> Submit </Button>
 
                 </Form>
-            </div>
-          </main>
         </div>
     );
 

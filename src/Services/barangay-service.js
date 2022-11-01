@@ -30,9 +30,9 @@ class BarangayDataService {
   //    return deleteDoc(encoderDoc);
   // };
 
-   getBarangayByName = (barangayName) => {
+   getBarangayByName = (barangayId) => {
        //return getDocs(query(barangayRef, where("barangay_name", "==", barangayName)));
-       return getDoc(doc(barangayRef, barangayName))
+       return getDoc(doc(barangayRef, barangayId))
    };
 
    //getBarangay = () => {

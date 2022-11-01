@@ -41,13 +41,15 @@ function LoginUser() {
 
       try {
         const userData = await getDoc(idRef);
+        console.log(userData.data())
         const barangay = await BarangayDataService.getBarangayByName(`${userData.data().city_desig}-${userData.data().brgy_desig}`)
+        console.log(`${userData.data().city_desig}-${userData.data().brgy_desig}`)
         
-        if(barangay.exists){
-          localStorage.setItem('brgy', barangay.data().barangay_name)
-          console.log("Barangay exists. View data.")
-        }else{
+        if(barangay.data() == undefined){
            alert("Your barangay has not been set-up. Please go to Setup Barangay tab.") 
+        }else{
+          await localStorage.setItem('brgy',`${barangay.data().city}-${barangay.data().barangay_name}`)
+          console.log("Barangay exists. View data.")
         }
       }catch (e) {
         return console.log(e);
@@ -60,16 +62,16 @@ function LoginUser() {
 
         try {
           await signIn(enteredEmail, enteredPassword)
-          navigate('/dashboard')
-          checkUserBarangay()
+          await checkUserBarangay()
+          await navigate('/dashboard')
         } catch (e) {
           //setError(e.message)
           console.log(e.message)
           alert('No user found. Contact admin for account approval.')
         }
 
-        setEmail('');
-        setPassword('');
+        await setEmail('');
+        await setPassword('');
     };
   
   return (
@@ -87,7 +89,7 @@ function LoginUser() {
                 </Navbar.Brand>
               </Col>
               <Col>
-                <a className="super-user" href="#"></a>
+                <a className="super-user" href=""></a>
               </Col>
             </Row>           
           </Container>

@@ -96,8 +96,8 @@ function AddEncoder() {
 
     //submit button to add encoder handler
     const submitHandler = async (e) => {
-        e.preventDefault();
 
+        e.preventDefault()
         const newEncoder = {enteredEmail, enteredFname, enteredLname, enteredMname, enteredContact};
         console.log(newEncoder);
 
@@ -168,7 +168,7 @@ function AddEncoder() {
                                  <th>Name</th>
                                  <th>Email</th>
                                  <th>Contact</th>
-                                 {/*<th>Zone Name</th>*/}
+                                 <th>Barangay</th>
                                  <th>Zone ID</th>
                                  <th>Activity</th>
                             </tr>
@@ -180,7 +180,7 @@ function AddEncoder() {
                                     <td>{doc.first_name}&nbsp;{doc.last_name}</td>
                                     <td>{doc.email}</td>
                                     <td>{doc.contact_num}</td>
-                                    {/*<td>{doc.assigned_zone_name}</td>*/}
+                                    <td>{doc.barangay_desig}</td>
                                     <td>{doc.assigned_zones}</td>
                                     <td>
                                     <Button type="button" className="btn-add" onClick={() => {deleteButton(doc.email)}}>Delete</Button>&nbsp;

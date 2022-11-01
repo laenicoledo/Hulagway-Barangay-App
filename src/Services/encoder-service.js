@@ -1,5 +1,5 @@
 import { db } from "../firebase.js";
-import {collection, where, query, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, doc} from "firebase/firestore";
+import {collection, where, query, getDocs, setDoc, updateDoc, deleteDoc, doc} from "firebase/firestore";
 
 //const subUserRef = query(collection(db, "subuser"), where("assigned_zones", "==", "[1,2,3,4,5]"));
 //const querySnapshot = await getDocs(subUserRef);
@@ -9,7 +9,7 @@ import {collection, where, query, getDocs, getDoc, addDoc, setDoc, updateDoc, de
 const yearRef = collection(db, "encoding_year");
 const subUserRef = collection(doc(yearRef,"2022"), "subusers")
 
-const brgyQuery = query(subUserRef, where("assigned_zones", "==","[1,2,3,4,5]"))
+const brgyQuery = query(subUserRef, where("barangay_desig", "==", localStorage.getItem("brgy")))
 
 class SubUserDataService {
 
@@ -19,7 +19,9 @@ class SubUserDataService {
         email: newEncoder.enteredEmail,
         first_name: newEncoder.enteredFname,
         last_name: newEncoder.enteredLname,
-        middle_name: newEncoder.enteredMname});
+        middle_name: newEncoder.enteredMname,
+        barangay_desig: localStorage.getItem("brgy")
+     });
   };
 
   updateEncoder = (email, checked) => {

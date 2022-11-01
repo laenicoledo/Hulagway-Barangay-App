@@ -20,6 +20,7 @@ function HeaderLogo() {
   const handleLogout = async () => {
     try {
       await logout();
+      localStorage.removeItem("brgy");
       navigate("/");
     } catch (e) {
       console.log(e.message);
@@ -33,18 +34,18 @@ function HeaderLogo() {
               <Col>
                 <Navbar.Brand>
                 <ul className="header-title"><img alt="" src="/final_logo.png" 
-                width="90" height="60" className="d-inline-block align-top"/>&nbsp;
+                width="90" height="60" className="d-inline-block align-top"/>&nbsp;&nbsp;
                 <a href="/dashboard"> Barangay Profiling System </a></ul>
                 </Navbar.Brand>
               </Col>
               <Col>
-                  <NavDropdown title="Options" className="header-options" as="button" color="red">
-                  <NavDropdown.Item href="/add-encoder">Add Encoders</NavDropdown.Item>
+                  <NavDropdown title="Options" className="header-options" as="button">
+                  <NavDropdown.Item href="/add-encoder"><i class="bi bi-person-plus"></i>&nbsp;Add Encoders</NavDropdown.Item>
                   {/*<NavDropdown.Item href="/approve-admin">Pending Accounts</NavDropdown.Item>*/}
                   {/*<NavDropdown.Item href="/add-superuser">Admin Page</NavDropdown.Item>*/}
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick = {handleLogout}>
-                    Logout
+                    <i class="bi bi-arrow-left-square"></i>&nbsp;&nbsp;Logout
                   </NavDropdown.Item>
                   </NavDropdown>
               </Col>

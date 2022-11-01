@@ -17,23 +17,23 @@ function HouseholdProfile() {
             <Nav variant="pills" defaultActiveKey="/household-profile" fill>
                 <Nav.Item>
                     <Nav.Link href="/dashboard">Community Profile</Nav.Link>
-                </Nav.Item>
+                </Nav.Item>&nbsp;
                 <Nav.Item>
                     <Nav.Link href="/purok-profile">Purok Profile</Nav.Link>
-                </Nav.Item>
+                </Nav.Item>&nbsp;
                 <Nav.Item>
                     <Nav.Link href="/household-profile">Household Profile</Nav.Link>
-                </Nav.Item>
+                </Nav.Item>&nbsp;
                 <Nav.Item>
                     <Nav.Link href="/resident-profile">Resident Profile</Nav.Link>
-                </Nav.Item>
+                </Nav.Item>&nbsp;
                 <Nav.Item>
-                    <Nav.Link href="/setup-barangay">Setup Barangay</Nav.Link>
-                </Nav.Item>
+                    <Nav.Link href="/barangay-tab">Setup/Edit Barangay</Nav.Link>
+                </Nav.Item>&nbsp;
                 <Nav.Item>
                     <Nav.Link href="/report">Reports</Nav.Link>
                 </Nav.Item>
-                </Nav>
+            </Nav>
           
           </nav>
           <aside>
@@ -43,6 +43,7 @@ function HouseholdProfile() {
           <br/>
           <main>
             <p></p>
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
           </main>
         </div>
     );
