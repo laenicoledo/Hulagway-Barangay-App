@@ -6,17 +6,18 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
-import {regions, provinces, cities, barangays} from "select-philippines-address";
+//import {regions, provinces, cities, barangays} from "select-philippines-address";
 import BarangayDataService from "../Services/barangay-service.js";
 import ZoneDataService from "../Services/zone-service.js";
+//import UserDataService from "../Services/user-service.js";
 
 function SetupBarangay() {
 
     //npm select phil address
-    const [regionData, setRegion] = useState([]);
-    const [provinceData, setProvince] = useState([]);
-    const [cityData, setCity] = useState([]);
-    const [barangayData, setBarangay] = useState([]);
+    // const [regionData, setRegion] = useState([]);
+    // const [provinceData, setProvince] = useState([]);
+    // const [cityData, setCity] = useState([]);
+    // const [barangayData, setBarangay] = useState([]);
 
     //STATE VARIABLES
     const [inputFields, setInputFields] = useState([{zone_num: '', zone_name: ''}])
@@ -48,7 +49,10 @@ function SetupBarangay() {
 
     //use effect hook for barangay, region, city options
     useEffect(() => {
-        handleRegionChange()
+        setSelectedCity(localStorage.getItem("city"))
+        setSelectedBarangay(localStorage.getItem("barangay"))
+        setSelectedRegion(localStorage.getItem("region"))
+        setSelectedProvince(localStorage.getItem("province"))
     }, [])
 
     //to handle data from add purok input field
@@ -94,48 +98,48 @@ function SetupBarangay() {
     }
 
     //to handle region input field
-    const handleRegionChange = () => {regions().then(
-      response => {setRegion(response);
-    });}
+    // const handleRegionChange = () => {regions().then(
+    //   response => {setRegion(response);
+    // });}
 
     //to handle logo input
     const handleLogoChange = (event) => {setLogo(event.target.files[0])}
 
     //to handle province input
-    const handleProvinceChange = (e) => {
-        setSelectedRegion(e.target.selectedOptions[0].text);
-        provinces(e.target.value).then(response => {
-            setProvince(response);
-            setCity([]);
-            setBarangay([]);
-        });
-    }
+    // const handleProvinceChange = (e) => {
+    //     setSelectedRegion(e.target.selectedOptions[0].text);
+    //     provinces(e.target.value).then(response => {
+    //         setProvince(response);
+    //         setCity([]);
+    //         setBarangay([]);
+    //     });
+    // }
 
     //to handle classification input
     const handleClassificationChange = (event) => {setClassification(event.target.value)}
 
      //to handle city/municipality input
-     const handleCityChange = (e) => {
-        setSelectedProvince(e.target.selectedOptions[0].text);
-        cities(e.target.value).then(response => {
-            setCity(response);
-        });
-    }
+    //  const handleCityChange = (e) => {
+    //     setSelectedProvince(e.target.selectedOptions[0].text);
+    //     cities(e.target.value).then(response => {
+    //         setCity(response);
+    //     });
+    // }
 
      //to handle city/municipality input
     const handleDateChange = (event) => {setFoundingDate(event.target.value)}
 
     //to handle barangay name input
-    const handleBarangayChange = (e) => {
-        setSelectedCity(e.target.selectedOptions[0].text);
-        barangays(e.target.value).then(response => {
-            setBarangay(response);
-        });
-    }
+    // const handleBarangayChange = (e) => {
+    //     setSelectedCity(e.target.selectedOptions[0].text);
+    //     barangays(e.target.value).then(response => {
+    //         setBarangay(response);
+    //     });
+    // }
 
-    const barangayChange = (e) => {
-        setSelectedBarangay(e.target.selectedOptions[0].text);
-    }
+    // const barangayChange = (e) => {
+    //     setSelectedBarangay(e.target.selectedOptions[0].text);
+    // }
 
     //to handle zip code input
     const handleZipCodeChange = (event) => {setZipCode(event.target.value)}
@@ -220,11 +224,21 @@ function SetupBarangay() {
         setKagawadNames([...kagawadNames, newKagawadField])
     }
 
+    //to get user information and fetch barangay + city value
+    // const getUserInfo = async () => {
+    //     //console.log(auth.currentUser.uid)
+    //     const barangayRef = localStorage.getItem("")
+    //     const userData = await UserDataService.getUserDataById();
+    //     //console.log(userData.data())
+    //     //setSelectedCity(userData.data().city_desig)
+    //     //setSelectedBarangay(userData.data().brgy_desig)
+
+    // }
+
     //for form overall submit button
     const submitHandler = async (e) => {
         
         e.preventDefault();
-        //getBarangay();
         
         const newBarangay = {enteredRegion, enteredProvince, enteredClassification, enteredCity, enteredFoundingDate, enteredBarangay, enteredZipCode};
         const newZone = inputFields
@@ -236,9 +250,9 @@ function SetupBarangay() {
               await ZoneDataService.addZone(newZone[i],newBarangay)  
             } 
             console.log("success.")
-            //localStorage.setItem('brgy',`${userData.data().city_desig}-${userData.data().brgy_desig}`)
-            alert("Barangay has been set-up.")
-            
+            await localStorage.setItem('brgy',`${enteredCity}-${enteredBarangay}`)
+            await alert("Barangay has been set-up.")
+            await window.location.reload()
         } catch (err) {
             console.log(err);
         }
@@ -267,36 +281,38 @@ function SetupBarangay() {
         
         <div className="setup-form">
                 <h4>Welcome! Setup your barangay below. </h4><br/>
-                <Form>
+                <Form onSubmit={submitHandler}>
               {/*General Information*/}
                   {/*Region drop-down*/}
                   <Row className="mb-3">
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formRegion">
+                    <Form.Group as={Col} controlId="formRegion">
                       <Form.Label>Region</Form.Label>
-                      <Form.Select onChange={handleProvinceChange} onSelect={handleRegionChange}>                         
+                    <Form.Control type="text" defaultValue={enteredRegion} readOnly />
+                     {/* <Form.Select onChange={handleProvinceChange} onSelect={handleRegionChange} value={enteredRegion} disabled>                         
                          {regionData && regionData.length > 0 && regionData.map((item) => 
                           <option key={item.region_code} value={item.region_code}>{item.region_name}</option>)}
-                      </Form.Select>
+                      </Form.Select>*/}
                     </Form.Group>
                   {/*Choose Logo from file*/}
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formLogo">
+                    <Form.Group as={Col} controlId="formLogo">
                       <Form.Label>Upload Barangay Logo</Form.Label>
                       <Form.Control type="file" value={chosenLogo} onChange={handleLogoChange} size="sm"/>
                     </Form.Group>
                   </Row>  
                   {/*Province drop-down*/}
                   <Row className="mb-3">
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formProvince">
+                    <Form.Group as={Col} controlId="formProvince">
                       <Form.Label>Province</Form.Label>
-                      <Form.Select onChange={handleCityChange}>
+                      <Form.Control type="text" defaultValue={enteredProvince} readOnly />
+                      {/*<Form.Select value={enteredProvince} onChange={handleCityChange} disabled>
                          {provinceData && provinceData.length > 0 && provinceData.map((item) => <option
                             key={item.province_code} value={item.province_code}>{item.province_name}</option>)}
-                      </Form.Select>
+                      </Form.Select>*/}
                     </Form.Group>
                   {/*Classification drop-down*/}
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formClassification">
+                    <Form.Group as={Col} controlId="formClassification">
                       <Form.Label>Classification</Form.Label>
-                      <Form.Select onChange={handleClassificationChange}>
+                      <Form.Select onChange={handleClassificationChange} required>
                         <option value="Rural">Rural</option>
                         <option value="Urban">Urban</option>
                       </Form.Select>
@@ -304,39 +320,41 @@ function SetupBarangay() {
                   </Row>
                   {/*City drop-down*/}
                   <Row className="mb-3">
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formCity">
+                    <Form.Group as={Col} controlId="formCity">
                       <Form.Label>City/Municipality</Form.Label>
-                      <Form.Select onChange={handleBarangayChange}>
+                      <Form.Control type="text" defaultValue={enteredCity} readOnly />
+                      {/*<Form.Select value= {enteredCity} onChange={handleBarangayChange} disabled>
                         {cityData && cityData.length > 0 && cityData.map((item) => <option
                             key={item.city_code} value={item.city_code}>{item.city_name}</option>)}
-                      </Form.Select>
+                      </Form.Select>*/}
                     </Form.Group>
                   {/*Founding Date Input*/}
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formFoundingDate">
+                    <Form.Group as={Col} controlId="formFoundingDate">
                       <Form.Label>Founding Date</Form.Label>
-                      <Form.Control type="date" value={enteredFoundingDate} onChange={handleDateChange} placeholder="Founding Date" />
+                      <Form.Control type="date" value={enteredFoundingDate} onChange={handleDateChange} placeholder="Founding Date" required/>
                     </Form.Group>
                   </Row>
                   {/*Barangay drop-down*/}
                    <Row className="mb-3">
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formName">
+                    <Form.Group as={Col} controlId="formName">
                       <Form.Label>Name of Barangay</Form.Label>
-                      <Form.Select onChange={barangayChange}>
+                      <Form.Control type="text" defaultValue={enteredBarangay} readOnly />
+                      {/*<Form.Select value={enteredBarangay} onChange={barangayChange} disabled>
                         <option disabled>Select Barangay</option>
                         {barangayData && barangayData.length > 0 && barangayData.map((item) => <option
                             key={item.brgy_code} value={item.brgy_code}>{item.brgy_name}</option>)}
-                      </Form.Select>
+                      </Form.Select>*/}
                     </Form.Group>
                   {/*ZIP Code Input*/}
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formZipCode">
+                    <Form.Group as={Col} controlId="formZipCode">
                       <Form.Label>ZIP Code</Form.Label>
-                      <Form.Control type="text" value={enteredZipCode} onChange={handleZipCodeChange} placeholder="" />
+                      <Form.Control type="text" value={enteredZipCode} onChange={handleZipCodeChange} placeholder="" required/>
                     </Form.Group>
                   </Row>
                   {/*Dynamic Form for Adding Puroks*/}
                   <Row className="mb-3">
 
-                    <Form.Group onSubmit={submitHandler} controlId="formAddPurok">
+                    <Form.Group controlId="formAddPurok">
                       <Form.Label>Purok/Zones/Sitios</Form.Label>
                         {inputFields.map((input, index) => {
                           return (
@@ -346,7 +364,7 @@ function SetupBarangay() {
                                     <Form.Control type="number" value={input.zone_num} onChange={event => handleFormChange(index, event)} name="zone_num" placeholder="No."/>
                                 </Col>
                                 <Col xl={8}>
-                                    <Form.Control value={input.zone_name} onChange={event => handleFormChange(index, event)} name="zone_name" placeholder="Purok Name"/>
+                                    <Form.Control value={input.zone_name} onChange={event => handleFormChange(index, event)} name="zone_name" placeholder="Purok Name" required/>
                                 </Col>
                                 <Col xl={1}>
                                     <Button className = "btn-add" onClick={addFields}> <i className="bi bi-plus"></i> </Button>
@@ -364,7 +382,7 @@ function SetupBarangay() {
 
                   {/*Table for land Profile*/}
                 <Row className="mb-3">
-                    <Form.Group onSubmit={submitHandler} controlId="formLandProfile">
+                    <Form.Group controlId="formLandProfile">
                         <Table bordered hover as={Col}>
                         <thead>
                            <tr>
@@ -413,7 +431,7 @@ function SetupBarangay() {
                  {/*Table for Adding General Charatcteristic of Barangay*/}
                  <Row className="mb-3">
                     <Form.Label style={{fontWeight: 'bold', display:'flex', justifyContent: 'center'}}> General Descriptions and Characteristics of the Barangay </Form.Label>
-                    <Form.Group as={Col} onSubmit={submitHandler} controlId="formGeneralDesc">
+                    <Form.Group as={Col} controlId="formGeneralDesc">
 
                  <Table bordered hover as={Col}>
                         <thead>
@@ -456,7 +474,7 @@ function SetupBarangay() {
 
               </Form.Group>
 
-               <Form.Group as={Col} onSubmit={submitHandler} controlId="formGeneralDesc">
+               <Form.Group as={Col} controlId="formGeneralDesc">
                     <br/>
                     <Form.Label> Others, please specify below: </Form.Label>
                      {otherDesc.map((input, index) => {
@@ -507,7 +525,7 @@ function SetupBarangay() {
                         </Table>
                   </Form.Group>
 
-                <Form.Group onSubmit={submitHandler} controlId="formLivelihood">
+                <Form.Group controlId="formLivelihood">
                     <Form.Label style={{fontWeight: 'bold', display:'flex', justifyContent: 'center'}}>Major Sources of Livelihood</Form.Label>
                       {inputLivelihood.map((input, index) => {
                         return (
@@ -532,7 +550,7 @@ function SetupBarangay() {
               {/*For the Barangay Council Personnels*/}
               <Row className="mb-3">
               
-               <Form.Group onSubmit={submitHandler} controlId="formCouncil">
+               <Form.Group controlId="formCouncil">
                   <Form.Label style={{fontWeight: 'bold', display:'flex', justifyContent: 'center'}}> List of Barangay Council and Personnel </Form.Label>
 
                    <Table bordered hover as={Col}>
@@ -695,7 +713,7 @@ function SetupBarangay() {
               {/*For Barangay Health Facilities*/}
               <Row className="mb-3">
               
-               <Form.Group onSubmit={submitHandler} controlId="formHealthFacilties">
+               <Form.Group controlId="formHealthFacilties">
                   <Form.Label style={{fontWeight: 'bold', display:'flex', justifyContent: 'center'}}> List of Barangay Health Facilities </Form.Label>
 
                    <Table bordered hover as={Col}>
@@ -807,7 +825,7 @@ function SetupBarangay() {
               {/*For Educational Facility*/}
               <Row className="mb-3">
               
-               <Form.Group onSubmit={submitHandler} controlId="formEducationalFacilties">
+               <Form.Group controlId="formEducationalFacilties">
                   <Form.Label style={{fontWeight: 'bold'}}> List of Educational Facilities </Form.Label>
 
                    <Table bordered hover as={Col}>
@@ -920,7 +938,7 @@ function SetupBarangay() {
               {/*For Service Facilities*/}
               <Row className="mb-3">
               
-               <Form.Group onSubmit={submitHandler} controlId="formServiceFacilties">
+               <Form.Group controlId="formServiceFacilties">
                   <Form.Label style={{fontWeight: 'bold'}}> List of Service Facilities </Form.Label>
 
                    <Table bordered hover as={Col}>
@@ -1023,7 +1041,7 @@ function SetupBarangay() {
                {/*For Agricultural Facilities*/}
               <Row className="mb-3">
               
-               <Form.Group onSubmit={submitHandler} controlId="formAgriculturalFacilties">
+               <Form.Group controlId="formAgriculturalFacilties">
                   <Form.Label style={{fontWeight: 'bold'}}> List of  Agricultural Facilities </Form.Label>
 
                    <Table bordered hover as={Col}>
@@ -1269,7 +1287,7 @@ function SetupBarangay() {
             {/*For Road Networks Entry*/}
             <Row className="mb-3">
               <Form.Label style={{fontWeight: 'bold'}}> Road Networks </Form.Label>
-              <Form.Group as={Col} onSubmit={submitHandler} controlId="formRoadNetworks">
+              <Form.Group as={Col} controlId="formRoadNetworks">
 
                  <Table bordered hover as={Col}>
                         <thead>
@@ -1309,7 +1327,7 @@ function SetupBarangay() {
 
               </Form.Group>
 
-               <Form.Group as={Col} onSubmit={submitHandler} controlId="formRoadNetworksCondition">
+               <Form.Group as={Col} controlId="formRoadNetworksCondition">
                 
               </Form.Group>
 
@@ -1319,7 +1337,7 @@ function SetupBarangay() {
             
             <Row className="mb-3">
               
-               <Form.Group onSubmit={submitHandler} controlId="formWaterFacility">
+               <Form.Group controlId="formWaterFacility">
                   <Form.Label style={{fontWeight: 'bold'}}> Water System </Form.Label>
 
                    <Table bordered hover as={Col}>
@@ -1437,7 +1455,7 @@ function SetupBarangay() {
                
             <Row className="mb-3">
               
-               <Form.Group onSubmit={submitHandler} controlId="formWasteDisposal">
+               <Form.Group controlId="formWasteDisposal">
                   <Form.Label style={{fontWeight: 'bold'}}>  Garbage/Waste Disposal System </Form.Label>
 
                    <Table bordered hover as={Col}>
@@ -1498,7 +1516,7 @@ function SetupBarangay() {
                 {/*Significant Events for the Barangay for the Past 3 Years*/}
                 <Row className="mb-3">
               
-               <Form.Group onSubmit={submitHandler} controlId="formEvents">
+               <Form.Group controlId="formEvents">
                   <Form.Label style={{fontWeight:'bold'}}>  Significant Events for the Barangay for the Past 3 Years </Form.Label>
 
                    <Table bordered hover as={Col}>
@@ -1646,7 +1664,7 @@ function SetupBarangay() {
                 <Form.Label style={{fontWeight: 'bold'}}>  
                     Programs, Projects, and Activities (based on the barangay’s Annual Investment Program during the previous year)
                 </Form.Label>
-               <Form.Group onSubmit={submitHandler} controlId="formProgramsProjectsActivities">
+               <Form.Group controlId="formProgramsProjectsActivities">
                   <Form.Label>What Programs, Projects, and Activities (PPAs) were implemented in the barangay during the past year?</Form.Label>
                   <Form.Control as="textarea" rows={3}/>
                   <Form.Label>Provide a brief description of the Programs, Projects and Activities (PPA).</Form.Label>
@@ -1666,7 +1684,7 @@ function SetupBarangay() {
                 <Form.Label style={{fontWeight: 'bold'}}>  
                     Budget, Revenue, and Expenditure 
                 </Form.Label>
-               <Form.Group onSubmit={submitHandler} controlId="formBudget">
+               <Form.Group controlId="formBudget">
                   <Form.Label>How much was the barangay’s budget, revenue and expenditure during the past 3 years?</Form.Label>
 
                   <Form.Label>  
@@ -1680,9 +1698,9 @@ function SetupBarangay() {
                   {/*  <Form.Group className="mb-3" id="formGridCheckbox">
                     <Form.Check type="checkbox" label="I've made sure all data is correct and valid." />
                   </Form.Group>*/}
-                  <Button type="submit" onClick={submitHandler}> Submit </Button>
+                  <Button type="submit"> Submit </Button>
 
-                </Form>
+            </Form>
         </div>
     );
 

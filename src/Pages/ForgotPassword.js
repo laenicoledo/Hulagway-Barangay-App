@@ -51,17 +51,15 @@ function ForgotPassword() {
       <div className="logo">
         <Navbar className="header-span">
           <Container>
-            <Row>
               <Col>
                 <Navbar.Brand>
                 <ul className="header-title"><img alt="" src="/final_logo.png" width="90" height="60" className="d-inline-block align-top"/>&nbsp;
                 <a href="/dashboard"> Barangay Profiling System </a></ul>
                 </Navbar.Brand>
               </Col>
-              <Col>
-                <a className="super-user" href="/">Barangay Rep Login</a>
-              </Col>
-            </Row>           
+               <Col>
+                <a className="super-user" href="/"> L O G - I N<i class="bi bi-box-arrow-in-right"></i></a>
+              </Col>          
           </Container>
         </Navbar>
       </div>

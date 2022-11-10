@@ -15,7 +15,7 @@ export const AuthContextProvider = ({ children }) => {
   
   const [user, setUser] = useState({});
 
-  const createUser = (email, password, fname, lname, city, brgy) => {
+  const createUser = (email, password, fname, lname, region, province, city, brgy) => {
 
     return createUserWithEmailAndPassword(auth, email, password).then(async (result) => {
           
@@ -26,6 +26,8 @@ export const AuthContextProvider = ({ children }) => {
                 first_name:fname,
                 last_name:lname,
                 id:result.user.uid,
+                province: province,
+                region: region
           }).then((re) => {
              console.log(re);
           }).catch((e) => {
@@ -54,7 +56,7 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
+      //sconsole.log(currentUser);
       setUser(currentUser);
     });
     return () => {

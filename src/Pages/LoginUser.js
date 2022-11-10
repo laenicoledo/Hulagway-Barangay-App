@@ -7,7 +7,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import BarangayDataService from "../Services/barangay-service.js";
 import {collection, getDoc, doc} from "firebase/firestore";
@@ -41,11 +40,16 @@ function LoginUser() {
 
       try {
         const userData = await getDoc(idRef);
-        console.log(userData.data())
+        //console.log(userData.data())
         const barangay = await BarangayDataService.getBarangayByName(`${userData.data().city_desig}-${userData.data().brgy_desig}`)
-        console.log(`${userData.data().city_desig}-${userData.data().brgy_desig}`)
-        
-        if(barangay.data() == undefined){
+        //console.log(`${userData.data().city_desig}-${userData.data().brgy_desig}`)
+        await localStorage.setItem('barangay', userData.data().brgy_desig)
+        await localStorage.setItem('city', userData.data().city_desig)
+        await localStorage.setItem('region', userData.data().region)
+        await localStorage.setItem('province', userData.data().province)
+
+
+        if(barangay.data() === undefined){
            alert("Your barangay has not been set-up. Please go to Setup Barangay tab.") 
         }else{
           await localStorage.setItem('brgy',`${barangay.data().city}-${barangay.data().barangay_name}`)
@@ -81,7 +85,6 @@ function LoginUser() {
       <div className="logo">
         <Navbar className="header-span">
           <Container>
-            <Row>
               <Col>
                 <Navbar.Brand>
                <ul className="header-title"><img alt="" src="/final_logo.png" width="90" height="60" className="d-inline-block align-top"/>&nbsp;
@@ -89,16 +92,18 @@ function LoginUser() {
                 </Navbar.Brand>
               </Col>
               <Col>
-                <a className="super-user" href=""></a>
-              </Col>
-            </Row>           
+              <Button className="super-user" size="lg" onClick={() => {navigate("/sign-up")}}>
+              S I G N - U P&nbsp;&nbsp;&nbsp;<i className="bi bi-person-plus"></i>
+              </Button>
+               {/* <a className="super-user" href="/"> SIGN-UP</a>*/}
+              </Col>        
           </Container>
         </Navbar>
       </div>
       
       <div className="loginbox">
           
-          <h4>Barangay Representative Login</h4><br/>
+          <h5>Barangay Representative Login</h5><br/>
           
           <Form className="login-form" onSubmit={submitHandler}>
 
@@ -114,7 +119,7 @@ function LoginUser() {
 
               <a href="/forgot-password">Forgot Password</a><br/><br/>
 
-              <Button variant="custom" type="submit" onClick={submitHandler}>
+              <Button variant="custom" type="submit">
                 Log In
               </Button>
           </Form>
@@ -123,9 +128,7 @@ function LoginUser() {
       </div>
       <br/>
       <div className="click-button">
-          <Button variant="custom" size="lg" onClick={() => {navigate("/sign-up")}}>
-                Create Barangay Rep Account
-          </Button>
+          
       </div>
 
   </div>

@@ -33,6 +33,7 @@ function AddEncoder() {
     //for modal purposes
     const [show, setShow] = useState(false);
     const [emailId, setEmailId] = useState('')
+    const [confirm, setConfirm] = useState(false);
 
     //change handlers
     const emailChangeHandler = (event) => {setEmail(event.target.value);};
@@ -63,6 +64,14 @@ function AddEncoder() {
         getZones();
         setEmailId(email);
     }
+    const handleConfirm = (email) => {
+        setConfirm(true);        
+        setEmailId(email);
+    }
+    const handleCancel = () => {
+        setEmailId('');
+        setConfirm(false);
+    }
     //save zone
     const saveChanges = async (emailId) => {
 
@@ -74,6 +83,7 @@ function AddEncoder() {
         }
         
         handleClose();
+        setEmailId('')
         window.location.reload(); 
     }
     
@@ -108,6 +118,7 @@ function AddEncoder() {
             console.log(err)
         }
 
+        window.location.reload(); 
         setFname('');
         setMname('');
         setLname('');
@@ -118,8 +129,9 @@ function AddEncoder() {
     //delete user
     const deleteButton = async (email) => {
         await SubUserDataService.deleteEncoder(email);
+        await handleCancel()
+        await getEncoders()
         console.log("success")
-        getEncoders()
     };
 
     return(
@@ -147,14 +159,14 @@ function AddEncoder() {
                     </Row>
                     <Row className="mb-3">
                         <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredContact} onChange={contactChangeHandler} placeholder="Enter contact number"/>
+                            <Form.Control type="text" value={enteredContact} onChange={contactChangeHandler} placeholder="Enter contact number" required/>
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Control value={enteredEmail} onChange={emailChangeHandler} placeholder="Enter email address" aria-label=""
                                     aria-describedby="basic-addon2" required/>
                         </Form.Group>
                     </Row>
-                    <Button type= "submit" onClick={submitHandler} variant="outline-secondary" id="button-addon2">
+                    <Button type= "submit" variant="outline-secondary" id="button-addon2">
                         Add Encoder
                     </Button>
                 </Form>
@@ -183,7 +195,7 @@ function AddEncoder() {
                                     <td>{doc.barangay_desig}</td>
                                     <td>{doc.assigned_zones}</td>
                                     <td>
-                                    <Button type="button" className="btn-add" onClick={() => {deleteButton(doc.email)}}>Delete</Button>&nbsp;
+                                    <Button type="button" className="btn-add" onClick={() => {handleConfirm(doc.email)}}>Delete</Button>&nbsp;
                                     <Button type="button" className="btn-add" onClick={() => {handleEdit(doc.email)}}>Edit Zone</Button>
                                     </td>
                                 </tr>                            
@@ -191,18 +203,12 @@ function AddEncoder() {
                         )})}
                     </Table>
                     {/*Pop-up box to assign zone*/}
-                    <Modal show={show} onHide={handleClose}>
+                    <Modal show={show} onHide={handleClose} centered>
                         <Modal.Header>
                           <Modal.Title>Check the assigned zone/s to encoder:</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Form>
-                              {/*  <Form.Group className="mb-3" controlId="editZoneForm">
-                                    <Form.Label>Zone Number</Form.Label>
-                                        <Form.Control type="number" placeholder="" onChange={zoneNumHandler} autoFocus/>
-                                    <Form.Label>Zone Name</Form.Label>
-                                      <Form.Control type="text" placeholder="" onChange={zoneNameHandler}/>
-                                </Form.Group>*/}
                                 {zoneList.map((doc, index) => (
                                     <div key={doc.id}>
                                         <input value={doc.zone_num} type="checkbox" onChange={handleCheck}/>
@@ -221,6 +227,20 @@ function AddEncoder() {
                             </Button>
                         </Modal.Footer>
                      </Modal>
+                 {/*Pop-up box to confirm*/}
+                 <Modal show={confirm} onHide={handleCancel}  backdrop="static" centered>
+                        <Modal.Body>
+                            Are you sure you want to delete this encoder?
+                       </Modal.Body>
+                       <Modal.Footer>
+                           <Button variant="custom" onClick={handleCancel}>
+                                Cancel
+                            </Button>
+                            <Button variant="custom" onClick={() => {deleteButton(emailId)}}>
+                                Delete Encoder
+                            </Button>
+                        </Modal.Footer>
+                </Modal>
               </div>
         </div>
     );

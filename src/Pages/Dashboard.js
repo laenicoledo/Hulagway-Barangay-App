@@ -27,17 +27,17 @@ function Dashboard() {
 
       try {
          const barangayRef = localStorage.getItem("brgy")
-         console.log(barangayRef);
+         //console.log(barangayRef);
         
          if(barangayRef != null){
+            await setBarangayExists(true)
             const data = await BarangayDataService.getBarangayByName(barangayRef)
-            setBarangayList(data.data())
-            setBarangayExists(true)
+            await setBarangayList(data.data())
             //console.log(barangayList)
          }else{
-          setBarangayExists(false)
-          //alert("Barangay data currently unavailable. Please proceed to Setup Barangay tab.")
-          console.log("barangay data not available")
+            await setBarangayExists(false)
+            //alert("Barangay data currently unavailable. Please proceed to Setup Barangay tab.")
+            console.log("barangay data not available")
          }
      }catch (e) {
          return console.log(e);
@@ -84,7 +84,7 @@ function Dashboard() {
           <br/>
           <main>
               {barangayExists ? (
-                  <div><h4> Barangay Basic Information <i class="bi bi-info-circle"></i></h4><br/>
+                  <div><h4> Barangay Basic Information <i className="bi bi-info-circle"></i></h4><br/>
                   <Table bordered hover>  
                     <tbody>
                       <tr>
