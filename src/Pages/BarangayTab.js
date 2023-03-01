@@ -12,34 +12,43 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 //import {regions, provinces, cities, barangays} from "select-philippines-address";
-//import BarangayDataService from "../Services/barangay-service.js";
-//import ZoneDataService from "../Services/zone-service.js";
+import BarangayDataService from "../Services/barangay-service.js";
+import ZoneDataService from "../Services/zone-service.js";
 
 function BarangayTab() {
 
     const [barangayExists, setBarangayExists] = useState();
+    const [barangayList, setBarangayList] = useState([])
+    const [zoneList, setZoneList] = useState([{}])
 
     //function to check if current user barangay desig exist in database
     const checkUserBarangay = async () => {
 
       try {
-        const barangay = await localStorage.getItem("brgy")
+        const barangayRef = localStorage.getItem("brgy")
     
-         if(barangay != null){
-            console.log("it exists")
+         if(barangayRef != null){
+            
+            const barangayData = await BarangayDataService.getBarangayByName(barangayRef)
+            const zoneData = await ZoneDataService.getZoneByBarangay();
+            setBarangayList(barangayData.data())
+            setZoneList(zoneData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
             setBarangayExists(true)
          }else{
-            console.log("no");
+            //console.log("no");
             setBarangayExists(false)
          }
      }catch (e) {
          return console.log(e);
      }
+
+      //console.log(barangayList)
+      //console.log(zoneList)
     
     }
 
     useEffect(() => {
-         checkUserBarangay();  
+         checkUserBarangay();
     }, []);
 
     return(
@@ -78,7 +87,7 @@ function BarangayTab() {
           </aside>
           <br/>
           <main>
-                {barangayExists ? (<EditBarangay/>) : 
+                {barangayExists ? (<EditBarangay barangay={barangayList} zones={zoneList}/>) : 
             (
                 <SetupBarangay/>
             )}

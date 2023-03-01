@@ -42,8 +42,12 @@ function Report() {
           </aside>
           <br/>
           <main>
-            <p></p>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+
+            <h4 style={{display:'flex', justifyContent: 'center', textAlign: 'center'}}> 
+                Still in development. Please come back for future updates.</h4>
+             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
           </main>
         </div>
     );

@@ -1,8 +1,8 @@
 body{
 	background: #FCF8E8;
 	font-family: 'Lato', sans-serif;
-	width: 100vw;
-	height: 100vh;
+	/*width: 100vw;
+	height: 100vh;*/
 }
 /*login page*/
 .loginbox{
@@ -63,7 +63,7 @@ body{
 .header-span {
 	height: 90px;
 	/*float: top;*/
-	background-image: linear-gradient(to right, rgba(0, 227, 181, 0.6), rgba(255, 226, 92, 0.6));
+	background-image: linear-gradient(to right, rgba(255, 226, 92, 0.9), rgba(0, 227, 181, 0.4));
 	/*background-image: linear-gradient(#00E3B5, #FFE25C);*/
 }
 
@@ -171,8 +171,10 @@ aside {
 }
 
 .btn-widget{
-	background: #014421;
-	border: 1px solid #014421;
+/*	background: #014421;*/
+	background-color: transparent;
+	color: #055052;
+	border: 2px solid #014421;
 	height: 75px;
 	font-weight: 600;
 
@@ -187,11 +189,31 @@ main{
 	float: left;
 	border: 2px solid #014421;
 	width: 75%;
+	height: 650px;
 	background: rgba(255, 255, 255, 0.5);
 	margin-left: 1% ;
 	margin-top: auto;
 	padding: 3%;
 	overflow: auto;
+}
+
+.carousel-control-prev{
+	width: 5%;
+	left: 0%;
+}
+
+.carousel-control-next{
+	width: 5%;
+	right: 0%;
+}
+
+.carousel-indicators{
+  bottom: -50px;
+}
+
+.carousel-item{
+	padding-left: 5%;
+	padding-right: 5%;
 }
 
 .user-tables{

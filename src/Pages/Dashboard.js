@@ -2,22 +2,22 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet.css';
 import Nav from 'react-bootstrap/Nav';
-import Table from 'react-bootstrap/Table';
 import HeaderLogo from '../HeaderLogo.js'
 import Widgets from '../Widgets.js'
-// import Profile from '../Profile.js'
+//import Carousel from 'react-bootstrap/Carousel';
+import CommunityProfile from './CommunityProfile.js'
 import BarangayDataService from "../Services/barangay-service.js";
-import { auth } from '../firebase.js';
-import { UserAuth } from '../AuthContext.js';
+//import { auth } from '../firebase.js';
+//import { UserAuth } from '../AuthContext.js';
 
 
 
 function Dashboard() {
 
-   //STATE VARIABLES
+  //STATE VARIABLES
   const [barangayExists, setBarangayExists] = useState();
   const [barangayList, setBarangayList] = useState([])
-  const { user } = UserAuth();
+  //const { user } = UserAuth();
 
 
   //function to check if current user barangay desig exist in database
@@ -40,7 +40,7 @@ function Dashboard() {
             console.log("barangay data not available")
          }
      }catch (e) {
-         return console.log(e);
+        alert(e);
      }
      
   }
@@ -84,41 +84,12 @@ function Dashboard() {
           <br/>
           <main>
               {barangayExists ? (
-                  <div><h4> Barangay Basic Information <i className="bi bi-info-circle"></i></h4><br/>
-                  <Table bordered hover>  
-                    <tbody>
-                      <tr>
-                        <td width = "25%"><h5>Region </h5></td>
-                        <td><h5>{barangayList.region}</h5></td>
-                      </tr> 
-                      <tr>
-                        <td width = "25%"><h5>Province </h5></td>
-                        <td><h5>{barangayList.province}</h5></td>
-                      </tr>
-                      <tr>
-                        <td width = "25%"><h5>City </h5></td>
-                        <td><h5>{barangayList.city}</h5></td>
-                      </tr>
-                      <tr>
-                        <td width = "25%"><h5>Barangay Name </h5></td>
-                        <td><h5>{barangayList.barangay_name}</h5></td>
-                      </tr>
-                      <tr>
-                        <td width = "25%"><h5>Postal Code </h5></td>
-                        <td><h5>{barangayList.zip_code}</h5></td>
-                      </tr>                      
-                      <tr>
-                        <td width = "25%"><h5>Classification </h5></td>
-                        <td><h5>{barangayList.classification}</h5></td>
-                      </tr>
-                      <tr>
-                        <td width = "25%"><h5>Founding Date </h5></td>
-                        <td><h5>{barangayList.founding_date}</h5></td>
-                      </tr>   
-                    </tbody>
-                  </Table></div>
+                
+                <CommunityProfile barangay={barangayList}/>
+
               ) : (
-                  <div style={{justifyContent: 'center', textAlign: 'center'}}>
+                
+                <div style={{justifyContent: 'center', textAlign: 'center'}}>
 
                 <h1> Welcome!</h1><br/>
                 <p>Currently, there are no existing data in your community database. Please proceed to the "Setup Barangay" tab to get started.</p>

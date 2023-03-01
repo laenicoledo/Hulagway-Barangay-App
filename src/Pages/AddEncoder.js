@@ -90,8 +90,9 @@ function AddEncoder() {
     //fetching all encoders
     const getEncoders = async () => {
         const data = await SubUserDataService.getSubUsersByBarangay();
-        console.log(data.docs);
+        //console.log(data.docs);
         setUserList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        console.log(userList)
     };
 
     //to display the data from database
@@ -113,7 +114,7 @@ function AddEncoder() {
 
         try {
             await SubUserDataService.addEncoder(newEncoder);
-            console.log("Success.")
+            console.log("Success")
         } catch (err) {
             console.log(err)
         }
@@ -147,25 +148,29 @@ function AddEncoder() {
                 <br/>
                 <Form onSubmit={submitHandler}>
                     <Row className="mb-3">
-                        <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredFname} onChange={fnameChangeHandler} placeholder="Enter first name" required/>
+                        <Form.Group as={Col} xs={6}>
+                            <Form.Control type="text" value={enteredFname} onChange={fnameChangeHandler} placeholder="First Name" required/>
                         </Form.Group>
-                        <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredMname} onChange={mnameChangeHandler} placeholder="Enter middle name" required/>
+                        <Form.Group as={Col} xs={6}>
+                            <Form.Control type="text" value={enteredMname} onChange={mnameChangeHandler} placeholder="Middle Name" required/>
                         </Form.Group>
-                        <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredLname} onChange={lnameChangeHandler} placeholder="Enter last name" required/>
-                        </Form.Group>
+                        
                     </Row>
                     <Row className="mb-3">
-                        <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredContact} onChange={contactChangeHandler} placeholder="Enter contact number" required/>
+                        <Form.Group as={Col} xs={6}>
+                            <Form.Control type="text" value={enteredLname} onChange={lnameChangeHandler} placeholder="Last Name" required/>
                         </Form.Group>
-                        <Form.Group as={Col}>
+                        <Form.Group as={Col} xs={6}>
+                            <Form.Control type="text" value={enteredContact} onChange={contactChangeHandler} placeholder="Contact Number" required/>
+                        </Form.Group>
+                    </Row>
+                    <Row>
+                        <Form.Group as={Col} xs={12}>
                             <Form.Control value={enteredEmail} onChange={emailChangeHandler} placeholder="Enter email address" aria-label=""
                                     aria-describedby="basic-addon2" required/>
                         </Form.Group>
                     </Row>
+                    <br/>
                     <Button type= "submit" variant="outline-secondary" id="button-addon2">
                         Add Encoder
                     </Button>

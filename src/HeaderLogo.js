@@ -51,6 +51,7 @@ function HeaderLogo() {
               <Col>
                   <NavDropdown title="" as="button" className="header-options">
                   <NavDropdown.Item href="/add-encoder"><i className="bi bi-person-plus"></i>&nbsp;&nbsp;Add Encoders</NavDropdown.Item>
+                  <NavDropdown.Item href="#"><i className="bi bi-info-circle"></i>&nbsp;&nbsp;About</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick = {handleConfirm}>
                     <i className="bi bi-arrow-left-square"></i>&nbsp;&nbsp;Logout

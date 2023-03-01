@@ -6,12 +6,20 @@ import HeaderLogo from '../HeaderLogo.js'
 import Widgets from '../Widgets.js'
 import SearchBar from '../SearchBar.js'
 import BarangayDataService from "../Services/barangay-service.js";
+import CommunityProfileDataService from "../Services/community-service.js";
 
 function HouseholdProfile() {
 
     //STATE VARIABLES
     const [barangayExists, setBarangayExists] = useState();
     const [householdList, setHouseholdList] = useState([{}]);
+
+    //to fetch households in the barangay 
+    // const getHouseholds = async () => {
+    //     const data = await CommunityProfileDataService.;
+    //     console.log(data.docs);
+    //     setZoneList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    // }
 
     //function to check if current user barangay desig exist in database
     const checkUserBarangay = async () => {

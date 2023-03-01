@@ -15,26 +15,10 @@ class ZoneDataService {
       brgy: `${newBarangay.enteredCity}-${newBarangay.enteredBarangay}`});
   };
 
-  // updateBook = (id, updatedBook) => {
-  //   const bookDoc = doc(db, "books", id);
-  //   return updateDoc(bookDoc, updatedBook);
-  // };
-
-  // deleteEncoder = (email) => {
-  //    const encoderDoc = doc(subUserRef, email);
-  //    return deleteDoc(encoderDoc);
-  // };
-
   getZoneByBarangay = () => {
      return getDocs(zoneQuery);
   };
 
-  //getZones = () => {
-  //  return getDocs(zoneRef);
-
-  //   const bookDoc = doc(db, "books", id);
-  //   return getDoc(bookDoc);
-  // };
 }
 
 export default new ZoneDataService;
