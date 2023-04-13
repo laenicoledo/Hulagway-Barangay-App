@@ -44,7 +44,7 @@ function HeaderLogo() {
               <Col>
                 <Navbar.Brand>
                 <ul className="header-title"><img alt="" src="/final_logo.png" 
-                width="90" height="60" className="d-inline-block align-top"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                width="100" height="70" className="d-inline-block align-top"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="/dashboard"> Barangay Profiling System </a></ul>
                 </Navbar.Brand>
               </Col>

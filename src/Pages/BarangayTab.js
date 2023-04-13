@@ -56,7 +56,7 @@ function BarangayTab() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/><br/>
+          <br/><br/>
           <nav>
             <Nav variant="pills" defaultActiveKey="/barangay-tab" fill>
                 <Nav.Item>

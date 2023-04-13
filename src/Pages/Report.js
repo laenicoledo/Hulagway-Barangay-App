@@ -12,7 +12,7 @@ function Report() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/><br/>
+          <br/><br/>
            <nav>
             <Nav variant="pills" defaultActiveKey="/report" fill>
                 <Nav.Item>

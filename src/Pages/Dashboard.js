@@ -54,7 +54,7 @@ function Dashboard() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/><br/>
+          <br/><br/>
           <nav>
             <Nav variant="pills" defaultActiveKey="/dashboard" fill>
               <Nav.Item>
@@ -77,10 +77,10 @@ function Dashboard() {
               </Nav.Item>
         </Nav>
           </nav>
-          <aside>
-            <Widgets/>
-            <br/><br/>
-          </aside>
+        {/*<aside>
+          <Widgets/>
+          <br/><br/>
+        </aside>*/}
           <br/>
           <main>
               {barangayExists ? (

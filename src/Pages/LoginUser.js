@@ -87,13 +87,13 @@ function LoginUser() {
           <Container>
               <Col>
                 <Navbar.Brand>
-               <ul className="header-title"><img alt="" src="/final_logo.png" width="90" height="60" className="d-inline-block align-top"/>&nbsp;
+               <ul className="header-title"><img alt="" src="/final_logo.png" width="100" height="70" className="d-inline-block align-top"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="/"> Barangay Profiling System </a></ul>
                 </Navbar.Brand>
               </Col>
               <Col>
               <Button className="super-user" size="lg" onClick={() => {navigate("/sign-up")}}>
-              S I G N - U P&nbsp;&nbsp;&nbsp;<i className="bi bi-person-plus"></i>
+              Sign-up&nbsp;&nbsp;&nbsp;<i className="bi bi-person-plus"></i>
               </Button>
                {/* <a className="super-user" href="/"> SIGN-UP</a>*/}
               </Col>        

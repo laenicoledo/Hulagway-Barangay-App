@@ -53,7 +53,7 @@ function HouseholdProfile() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/><br/>
+          <br/><br/>
           <nav>
             <Nav variant="pills" defaultActiveKey="/household-profile" fill>
                 <Nav.Item>

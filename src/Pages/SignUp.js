@@ -141,12 +141,12 @@ function SignUp() {
           <Container>
               <Col>
                 <Navbar.Brand>
-                <ul className="header-title"><img alt="" src="/final_logo.png" width="90" height="60" className="d-inline-block align-top"/>&nbsp;
+                <ul className="header-title"><img alt="" src="/final_logo.png" width="100" height="70" className="d-inline-block align-top"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="/"> Barangay Profiling System </a></ul>
                 </Navbar.Brand>
               </Col>
               <Col>
-                <Button className="super-user" onClick={() => {navigate("/")}}>L O G - I N&nbsp;&nbsp;&nbsp;<i className="bi bi-box-arrow-in-right"></i></Button>
+                <Button className="super-user" onClick={() => {navigate("/")}}>Log-in&nbsp;&nbsp;&nbsp;<i className="bi bi-box-arrow-in-right"></i></Button>
               </Col>           
           </Container>
         </Navbar>

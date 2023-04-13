@@ -58,7 +58,7 @@ function PurokProfile() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/><br/>
+          <br/><br/>
           <nav>
             <Nav variant="pills" defaultActiveKey="/purok-profile" fill>
                <Nav.Item>

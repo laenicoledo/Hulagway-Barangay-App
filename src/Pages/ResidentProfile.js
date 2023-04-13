@@ -46,7 +46,7 @@ function ResidentProfile() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/><br/>
+          <br/><br/>
            <nav>
             <Nav variant="pills" defaultActiveKey="/resident-profile" fill>
                 <Nav.Item>
