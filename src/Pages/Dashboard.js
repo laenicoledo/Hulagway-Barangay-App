@@ -4,7 +4,7 @@ import '../stylesheet.css';
 import Nav from 'react-bootstrap/Nav';
 import HeaderLogo from '../HeaderLogo.js'
 import Widgets from '../Widgets.js'
-//import Carousel from 'react-bootstrap/Carousel';
+import Spinner from 'react-bootstrap/Spinner';
 import CommunityProfile from './CommunityProfile.js'
 import BarangayDataService from "../Services/barangay-service.js";
 //import { auth } from '../firebase.js';
@@ -17,6 +17,7 @@ function Dashboard() {
   //STATE VARIABLES
   const [barangayExists, setBarangayExists] = useState();
   const [barangayList, setBarangayList] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
   //const { user } = UserAuth();
 
 
@@ -30,14 +31,19 @@ function Dashboard() {
          //console.log(barangayRef);
         
          if(barangayRef != null){
+            
             await setBarangayExists(true)
+            setIsLoading(true)
+
             const data = await BarangayDataService.getBarangayByName(barangayRef)
-            await setBarangayList(data.data())
-            //console.log(barangayList)
+            await setBarangayList(data)
+
+            setIsLoading(false);
          }else{
             await setBarangayExists(false)
             //alert("Barangay data currently unavailable. Please proceed to Setup Barangay tab.")
-            console.log("barangay data not available")
+            console.log("barangay data not available");
+            setIsLoading(false);
          }
      }catch (e) {
         alert(e);
@@ -54,7 +60,7 @@ function Dashboard() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/>
+          <br/>
           <nav>
             <Nav variant="pills" defaultActiveKey="/dashboard" fill>
               <Nav.Item>
@@ -75,7 +81,7 @@ function Dashboard() {
               <Nav.Item>
                   <Nav.Link href="/report">Reports</Nav.Link>
               </Nav.Item>
-        </Nav>
+            </Nav>
           </nav>
         {/*<aside>
           <Widgets/>
@@ -83,6 +89,15 @@ function Dashboard() {
         </aside>*/}
           <br/>
           <main>
+
+            {isLoading ? (
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                    <br/><br/><br/><br/><br/>
+                    <Spinner animation="grow"/>
+                      <br/>
+                    <h2>Loading...</h2>
+                  </div>
+            ) : (<>
               {barangayExists ? (
                 
                 <CommunityProfile barangay={barangayList}/>
@@ -96,7 +111,9 @@ function Dashboard() {
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
                 </div>
-              )}           
+              )}
+          </>)}
+
           </main>
         </div>
     );

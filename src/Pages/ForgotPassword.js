@@ -34,9 +34,10 @@ function ForgotPassword() {
 
     //button submit handler
     const submitHandler = async (e) => {
-      //e.preventDefault();
+      e.preventDefault();
 
        try {
+          console.log(enteredEmail)
           await forgotPassword(enteredEmail)
           handleShow();
         } catch (e) {
@@ -58,7 +59,7 @@ function ForgotPassword() {
                 </Navbar.Brand>
               </Col>
                <Col>
-                <a className="super-user" href="/"> L O G - I N<i class="bi bi-box-arrow-in-right"></i></a>
+                <a className="super-user" href="/"> L O G - I N<i className="bi bi-box-arrow-in-right"></i></a>
               </Col>          
           </Container>
         </Navbar>

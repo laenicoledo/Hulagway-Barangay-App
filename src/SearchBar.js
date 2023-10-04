@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 
-function SearchBar({ placeholder, data }) {
+function SearchBar({ placeholder, data, onSelect }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
 
@@ -25,10 +25,15 @@ function SearchBar({ placeholder, data }) {
     setWordEntered("");
   };
 
+  const handleZoneClick = (value) => {
+    onSelect(value);
+    clearInput();
+  }
+
   return (
     <div className="search">
 
-        <Stack direction="horizontal" gap={3}>
+        <Stack direction="horizontal" gap={4}>
         <Form.Control type="text" className="me-auto" placeholder={placeholder} value={wordEntered} onChange={handleFilter}/>
           {filteredData.length === 0 ? (
             <i className="bi bi-search"></i>
@@ -37,12 +42,12 @@ function SearchBar({ placeholder, data }) {
           )}
         </Stack>
 
-      {filteredData.length != 0 && (
+      {filteredData.length !== 0 && (
 
         <div className="dataResult">
           {filteredData.slice(0, 15).map((value, key) => {
             return (
-              <a key = {value.id} className="dataItem" target="_blank">
+              <a key={value.id} className="dataItem" onClick={() => handleZoneClick(value)}>
                 <p>{value.zone_name} </p>
               </a>
             );

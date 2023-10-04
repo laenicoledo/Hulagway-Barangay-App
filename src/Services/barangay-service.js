@@ -1,11 +1,12 @@
 import { db } from "../firebase.js";
-import {collection, where, query, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, doc} from "firebase/firestore";
+import {collection, where, query, getDocs, getDoc, addDoc, setDoc, updateDoc, doc} from "firebase/firestore";
 
 const yearRef = collection(db, "encoding_year");
-const barangayRef = collection(doc(yearRef,"2022"),"barangay")
-//const idRef = doc(userRef, auth.currentUser.uid)
+//const barangayRef = collection(doc(yearRef,"2022"),"barangay")
 
-//const brgyQuery = query(barangayRef, where("barangay_name", "==",""))
+//get collection names barangay from document - for adding new barangay
+const currentYear = new Date().getFullYear();
+const barangayRef = collection(doc(yearRef, currentYear.toString()), "barangay");
 
 class BarangayDataService {
 
@@ -20,27 +21,26 @@ class BarangayDataService {
         zip_code: newBarangay.enteredZipCode});
   };
 
-  // updateBook = (id, updatedBook) => {
-  //   const bookDoc = doc(db, "books", id);
-  //   return updateDoc(bookDoc, updatedBook);
-  // };
+  getBarangayByName = async (barangayId) => {
+  
+  //Get a list of all the encoding years
+  const yearSnapshot = await getDocs(yearRef);
+  const years = yearSnapshot.docs.map((doc) => doc.id);
 
-  // deleteEncoder = (email) => {
-  //    const encoderDoc = doc(subUserRef, email);
-  //    return deleteDoc(encoderDoc);
-  // };
-
-   getBarangayByName = (barangayId) => {
-       //return getDocs(query(barangayRef, where("barangay_name", "==", barangayName)));
-       return getDoc(doc(barangayRef, barangayId))
-   };
-
-   //getBarangay = () => {
-   //  return getDocs(barangayRef);
-
-  //   const bookDoc = doc(db, "books", id);
-  //   return getDoc(bookDoc);
-  // };
+  // Loop through all the years and get the barangay by name
+  for (const year of years) {
+    
+    const brgyRef = collection(doc(yearRef, year), "barangay");
+    const barangaySnapshot = await getDoc(doc(brgyRef, barangayId));
+    
+    if(barangaySnapshot.exists()) {
+      await localStorage.setItem('year', year)
+      return barangaySnapshot.data();
+    }
+  }
+    // Return null if the barangay is not found in any year
+    return null;
+  };
 }
 
 export default new BarangayDataService;

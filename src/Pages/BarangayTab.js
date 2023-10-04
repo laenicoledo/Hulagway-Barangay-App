@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
+import Spinner from 'react-bootstrap/Spinner';
 //import {regions, provinces, cities, barangays} from "select-philippines-address";
 import BarangayDataService from "../Services/barangay-service.js";
 import ZoneDataService from "../Services/zone-service.js";
@@ -20,6 +21,7 @@ function BarangayTab() {
     const [barangayExists, setBarangayExists] = useState();
     const [barangayList, setBarangayList] = useState([])
     const [zoneList, setZoneList] = useState([{}])
+    const [isLoading, setIsLoading] = useState(true);
 
     //function to check if current user barangay desig exist in database
     const checkUserBarangay = async () => {
@@ -28,22 +30,21 @@ function BarangayTab() {
         const barangayRef = localStorage.getItem("brgy")
     
          if(barangayRef != null){
-            
+            setIsLoading(true)
             const barangayData = await BarangayDataService.getBarangayByName(barangayRef)
             const zoneData = await ZoneDataService.getZoneByBarangay();
-            setBarangayList(barangayData.data())
+            setBarangayList(barangayData)
             setZoneList(zoneData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
             setBarangayExists(true)
+            setIsLoading(false);
          }else{
             //console.log("no");
             setBarangayExists(false)
+            setIsLoading(false);
          }
      }catch (e) {
          return console.log(e);
      }
-
-      //console.log(barangayList)
-      //console.log(zoneList)
     
     }
 
@@ -56,7 +57,7 @@ function BarangayTab() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/>
+          <br/>
           <nav>
             <Nav variant="pills" defaultActiveKey="/barangay-tab" fill>
                 <Nav.Item>
@@ -80,17 +81,29 @@ function BarangayTab() {
             </Nav>
           
           </nav>
-          <aside>
+          {/*<aside>
             <Widgets/>
             <br/><br/>
           
-          </aside>
+          </aside>*/}
           <br/>
           <main>
-                {barangayExists ? (<EditBarangay barangay={barangayList} zones={zoneList}/>) : 
-            (
-                <SetupBarangay/>
-            )}
+
+              {isLoading ? (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                    <br/><br/><br/><br/><br/>
+                    <Spinner animation="grow"/>
+                      <br/>
+                    <h2>Loading...</h2>
+                  </div>
+                ):(<>
+
+                    {barangayExists ? (<EditBarangay barangay={barangayList} zones={zoneList}/>) : 
+                    (
+                        <SetupBarangay/>
+                    )}
+
+                </>)}
                 
           </main>
         </div>

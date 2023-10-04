@@ -17,6 +17,8 @@ function EditBarangay({barangay, zones}) {
 
     //STATE VARIABLES
     const [inputFields, setInputFields] = useState([{zone_num: '', zone_name: ''}])
+    const [existingZones, setExistingZones] = useState([{zone_num: '', zone_name: ''}])
+
     //const [inputLivelihood, setInputLivelihood] = useState([{livelihoodId:'', livelihoodName: ''}])
     //const [inputDescription, setInputDescription] = useState({'':''})
     //general info
@@ -37,6 +39,7 @@ function EditBarangay({barangay, zones}) {
         setSelectedProvince(localStorage.getItem("province"))
 
         setInputFields(zones)
+        setExistingZones(zones)
         setClassification(barangay.classification)
         setFoundingDate(barangay.founding_date)
         setZipCode(barangay.zip_code)
@@ -80,12 +83,16 @@ function EditBarangay({barangay, zones}) {
         setInputFields([...inputFields, newfield])
     }
 
-    //for remove field button in purok
-    const removeFields = (index) => {
+    const removeFields = async(index) => {
+        
         let purokData = [...inputFields];
-        purokData.splice(index, 1)
-        setInputFields(purokData)
+        let removedZone = purokData.splice(index, 1)[0]; // Get the removed zone
+
+        // Call the deleteZone function to delete the removed zone
+        await ZoneDataService.deleteZone(`${enteredBarangay}-${removedZone.zone_num}-${removedZone.zone_name}`);
+        await setInputFields(purokData);
     }
+
 
     //for form overall submit button
     const submitHandler = async (e) => {
@@ -93,14 +100,15 @@ function EditBarangay({barangay, zones}) {
         e.preventDefault();
         
         const newBarangay = {enteredRegion, enteredProvince, enteredClassification, enteredCity, enteredFoundingDate, enteredBarangay, enteredZipCode};
-        const newZone = inputFields
+        const newZones = inputFields
 
         try {
             await BarangayDataService.addBarangay(newBarangay);
             
-            for (let i = 0; i < inputFields.length; i++) {
-              await ZoneDataService.addZone(newZone[i],newBarangay)  
-            } 
+            for (let i = 0; i < newZones.length; i++) {
+                await ZoneDataService.addZone(newZones[i], newBarangay, existingZones);
+            }
+
             console.log("success.")
             await localStorage.setItem('brgy',`${enteredCity}-${enteredBarangay}`)
             await alert("Barangay data has been updated.")

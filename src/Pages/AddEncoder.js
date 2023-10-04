@@ -96,7 +96,9 @@ function AddEncoder() {
     };
 
     //to display the data from database
-    useEffect(() => { getEncoders(); }, []);
+    useEffect(() => { 
+        getEncoders(); 
+    }, []);
 
     //to fetch zones in the barangay 
     const getZones = async () => {
@@ -135,6 +137,17 @@ function AddEncoder() {
         console.log("success")
     };
 
+    const refreshToken = async(emailId) => {
+
+        try {
+            await SubUserDataService.updateToken(emailId);  
+            console.log("success.");
+        } catch (err) {
+            console.log(err);
+        }
+        window.location.reload(); 
+    }
+
     return(
        <div className= "dashboard">
        
@@ -161,12 +174,12 @@ function AddEncoder() {
                             <Form.Control type="text" value={enteredLname} onChange={lnameChangeHandler} placeholder="Last Name" required/>
                         </Form.Group>
                         <Form.Group as={Col} xs={6}>
-                            <Form.Control type="text" value={enteredContact} onChange={contactChangeHandler} placeholder="Contact Number" required/>
+                            <Form.Control type="contact" value={enteredContact} onChange={contactChangeHandler} placeholder="Contact Number" required/>
                         </Form.Group>
                     </Row>
                     <Row>
                         <Form.Group as={Col} xs={12}>
-                            <Form.Control value={enteredEmail} onChange={emailChangeHandler} placeholder="Enter email address" aria-label=""
+                            <Form.Control type="email" value={enteredEmail} onChange={emailChangeHandler} placeholder="Enter email address" aria-label=""
                                     aria-describedby="basic-addon2" required/>
                         </Form.Group>
                     </Row>
@@ -185,7 +198,7 @@ function AddEncoder() {
                                  <th>Name</th>
                                  <th>Email</th>
                                  <th>Contact</th>
-                                 <th>Barangay</th>
+                                 <th>Encoding End</th>
                                  <th>Zone ID</th>
                                  <th>Activity</th>
                             </tr>
@@ -197,11 +210,12 @@ function AddEncoder() {
                                     <td>{doc.first_name}&nbsp;{doc.last_name}</td>
                                     <td>{doc.email}</td>
                                     <td>{doc.contact_num}</td>
-                                    <td>{doc.barangay_desig}</td>
+                                    <td>{doc.encoding_end}</td>
                                     <td>{doc.assigned_zones}</td>
                                     <td>
                                     <Button type="button" className="btn-add" onClick={() => {handleConfirm(doc.email)}}>Delete</Button>&nbsp;
-                                    <Button type="button" className="btn-add" onClick={() => {handleEdit(doc.email)}}>Edit Zone</Button>
+                                    <Button type="button" className="btn-add" onClick={() => {handleEdit(doc.email)}}>Edit Zone</Button>&nbsp;
+                                    <Button type="button" className="btn-add" onClick={() => {refreshToken(doc.email)}}> Refresh Token </Button>
                                     </td>
                                 </tr>                            
                             </tbody>

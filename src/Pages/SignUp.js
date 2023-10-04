@@ -118,6 +118,7 @@ function SignUp() {
           await localStorage.setItem('city', enteredCity)
           await localStorage.setItem('region', enteredRegion)
           await localStorage.setItem('province', enteredProvince)
+           await localStorage.setItem('year', new Date().getFullYear().toString())
           await alert('Admin account created.')
           await navigate('/barangay-tab')
         } catch (e) {
