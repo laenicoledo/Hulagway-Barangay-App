@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# Hulagway
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Barangay Profiling Application
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Introduction](#introduction)
+- [Features](#features)
+- [Demo](#demo)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
 
-### `npm start`
+## Introduction
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+A web application designed to support the digital profiling efforts of the
+barangay LGU of Mindanao. This web app aimed to streamline and modernize
+data collection and management process, replacing manual data entry with an
+efficient digital solution. 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+List the key features of your web app. You can use bullet points for this section.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- User Creation and Authentication
+- Community, Purok, and Resident Comprehensive Profile Viewing.
+- Barangay Setup
+- Encoder Management
+- Reports
 
-### `npm run build`
+## Demo
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can access a live demo of the web app [here](https://kaagapay-fa8b5.firebaseapp.com/).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## License
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project is currently not licensed. We are in the process of determining the appropriate license.
 
-### `npm run eject`
+## Acknowledgments
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+We would like to express our gratitude to the following libraries and services that played a significant role in the development of this project:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [Ant Design Charts](https://github.com/ant-design/charts) - Used for creating interactive charts.
+  - Version: ^1.4.2
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- [Bootstrap](https://getbootstrap.com/) - A powerful CSS framework for designing responsive web applications.
+  - Version: ^5.2.0-beta1
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- [Bootstrap Icons](https://icons.getbootstrap.com/) - Provides a collection of icons that enhance the user interface.
+  - Version: ^1.9.1
 
-## Learn More
+- [Firebase](https://firebase.google.com/) - Used for backend services, including hosting, authentication, and more.
+  - Version: ^9.12.1
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [React](https://reactjs.org/) - The JavaScript library powering the user interface of this app.
+  - Version: ^18.2.0
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [React Bootstrap](https://react-bootstrap.github.io/) - Integrates Bootstrap with React components.
+  - Version: ^2.4.0
 
-### Code Splitting
+- [React DOM](https://reactjs.org/docs/react-dom.html) - The package for rendering React components in the DOM.
+  - Version: ^18.2.0
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [React Hook Form](https://react-hook-form.com/) - A library for managing form state and validation in React.
+  - Version: ^7.39.1
 
-### Analyzing the Bundle Size
+- [React Router DOM](https://reactrouter.com/web/guides/quick-start) - For handling routing and navigation in the app.
+  - Version: ^6.3.0
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- [Select Philippines Address](https://github.com/yourusername/select-philippines-address) - A custom package for selecting Philippines addresses.
+  - Version: ^1.0.6
 
-### Making a Progressive Web App
+Please note that these packages and libraries have been instrumental in building our web app, and we thank their respective creators and maintainers for their contributions to the open-source community.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
