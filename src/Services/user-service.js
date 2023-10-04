@@ -5,9 +5,8 @@ import {collection, getDoc, doc} from "firebase/firestore";
 const yearRef = collection(db, "encoding_year");
 
 //get collection named user from document 2022
-const userRef = collection(doc(yearRef,"2022"), "users")
-
-//const idRef = doc(userRef, auth.currentUser.uid)
+const currentYear = new Date().getFullYear();
+const userRef = collection(doc(yearRef, currentYear.toString()), "users");
 
 class UserDataService {
 

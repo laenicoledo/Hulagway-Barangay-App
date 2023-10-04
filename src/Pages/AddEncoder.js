@@ -90,12 +90,15 @@ function AddEncoder() {
     //fetching all encoders
     const getEncoders = async () => {
         const data = await SubUserDataService.getSubUsersByBarangay();
-        console.log(data.docs);
+        //console.log(data.docs);
         setUserList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        console.log(userList)
     };
 
     //to display the data from database
-    useEffect(() => { getEncoders(); }, []);
+    useEffect(() => { 
+        getEncoders(); 
+    }, []);
 
     //to fetch zones in the barangay 
     const getZones = async () => {
@@ -113,7 +116,7 @@ function AddEncoder() {
 
         try {
             await SubUserDataService.addEncoder(newEncoder);
-            console.log("Success.")
+            console.log("Success")
         } catch (err) {
             console.log(err)
         }
@@ -134,6 +137,17 @@ function AddEncoder() {
         console.log("success")
     };
 
+    const refreshToken = async(emailId) => {
+
+        try {
+            await SubUserDataService.updateToken(emailId);  
+            console.log("success.");
+        } catch (err) {
+            console.log(err);
+        }
+        window.location.reload(); 
+    }
+
     return(
        <div className= "dashboard">
        
@@ -147,25 +161,29 @@ function AddEncoder() {
                 <br/>
                 <Form onSubmit={submitHandler}>
                     <Row className="mb-3">
-                        <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredFname} onChange={fnameChangeHandler} placeholder="Enter first name" required/>
+                        <Form.Group as={Col} xs={6}>
+                            <Form.Control type="text" value={enteredFname} onChange={fnameChangeHandler} placeholder="First Name" required/>
                         </Form.Group>
-                        <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredMname} onChange={mnameChangeHandler} placeholder="Enter middle name" required/>
+                        <Form.Group as={Col} xs={6}>
+                            <Form.Control type="text" value={enteredMname} onChange={mnameChangeHandler} placeholder="Middle Name" required/>
                         </Form.Group>
-                        <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredLname} onChange={lnameChangeHandler} placeholder="Enter last name" required/>
-                        </Form.Group>
+                        
                     </Row>
                     <Row className="mb-3">
-                        <Form.Group as={Col}>
-                            <Form.Control type="text" value={enteredContact} onChange={contactChangeHandler} placeholder="Enter contact number" required/>
+                        <Form.Group as={Col} xs={6}>
+                            <Form.Control type="text" value={enteredLname} onChange={lnameChangeHandler} placeholder="Last Name" required/>
                         </Form.Group>
-                        <Form.Group as={Col}>
-                            <Form.Control value={enteredEmail} onChange={emailChangeHandler} placeholder="Enter email address" aria-label=""
+                        <Form.Group as={Col} xs={6}>
+                            <Form.Control type="contact" value={enteredContact} onChange={contactChangeHandler} placeholder="Contact Number" required/>
+                        </Form.Group>
+                    </Row>
+                    <Row>
+                        <Form.Group as={Col} xs={12}>
+                            <Form.Control type="email" value={enteredEmail} onChange={emailChangeHandler} placeholder="Enter email address" aria-label=""
                                     aria-describedby="basic-addon2" required/>
                         </Form.Group>
                     </Row>
+                    <br/>
                     <Button type= "submit" variant="outline-secondary" id="button-addon2">
                         Add Encoder
                     </Button>
@@ -180,7 +198,7 @@ function AddEncoder() {
                                  <th>Name</th>
                                  <th>Email</th>
                                  <th>Contact</th>
-                                 <th>Barangay</th>
+                                 <th>Encoding End</th>
                                  <th>Zone ID</th>
                                  <th>Activity</th>
                             </tr>
@@ -192,11 +210,12 @@ function AddEncoder() {
                                     <td>{doc.first_name}&nbsp;{doc.last_name}</td>
                                     <td>{doc.email}</td>
                                     <td>{doc.contact_num}</td>
-                                    <td>{doc.barangay_desig}</td>
+                                    <td>{doc.encoding_end}</td>
                                     <td>{doc.assigned_zones}</td>
                                     <td>
                                     <Button type="button" className="btn-add" onClick={() => {handleConfirm(doc.email)}}>Delete</Button>&nbsp;
-                                    <Button type="button" className="btn-add" onClick={() => {handleEdit(doc.email)}}>Edit Zone</Button>
+                                    <Button type="button" className="btn-add" onClick={() => {handleEdit(doc.email)}}>Edit Zone</Button>&nbsp;
+                                    <Button type="button" className="btn-add" onClick={() => {refreshToken(doc.email)}}> Refresh Token </Button>
                                     </td>
                                 </tr>                            
                             </tbody>

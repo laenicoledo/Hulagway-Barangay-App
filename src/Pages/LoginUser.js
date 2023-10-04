@@ -9,14 +9,14 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Col from 'react-bootstrap/Col';
 import BarangayDataService from "../Services/barangay-service.js";
-import {collection, getDoc, doc} from "firebase/firestore";
+import {collection, getDoc, doc, getDocs} from "firebase/firestore";
 import { db, auth } from '../firebase.js';
 
 //get collections in encoding year
 const yearRef = collection(db, "encoding_year");
 
 //get collection names user from document 2022
-const userRef = collection(doc(yearRef,"2022"), "users")
+//const userRef = collection(doc(yearRef,"2022"), "users")
 
 
 function LoginUser() {
@@ -36,7 +36,22 @@ function LoginUser() {
     //function to check if current user barangay desig exist in database
     const checkUserBarangay = async () => {
 
-      const idRef = doc(userRef, auth.currentUser.uid)
+      //Get a list of all the encoding years
+      const yearSnapshot = await getDocs(yearRef);
+      const years = yearSnapshot.docs.map((doc) => doc.id);
+
+      // Loop through all the years and get the barangay by name
+      for (const year of years) {
+    
+        const userRef = collection(doc(yearRef, year), "users");
+        const userSnapshot = await getDoc(doc(userRef, auth.currentUser.uid));
+    
+        if(userSnapshot.exists()) {
+          await localStorage.setItem('year', year) 
+        }
+      }
+
+      const idRef = doc(collection(doc(yearRef, localStorage.getItem("year")), "users"), auth.currentUser.uid)  
 
       try {
         const userData = await getDoc(idRef);
@@ -49,10 +64,10 @@ function LoginUser() {
         await localStorage.setItem('province', userData.data().province)
 
 
-        if(barangay.data() === undefined){
+        if(barangay === undefined || null){
            alert("Your barangay has not been set-up. Please go to Setup Barangay tab.") 
         }else{
-          await localStorage.setItem('brgy',`${barangay.data().city}-${barangay.data().barangay_name}`)
+          await localStorage.setItem('brgy',`${barangay.city}-${barangay.barangay_name}`)
           console.log("Barangay exists. View data.")
         }
       }catch (e) {
@@ -87,13 +102,13 @@ function LoginUser() {
           <Container>
               <Col>
                 <Navbar.Brand>
-               <ul className="header-title"><img alt="" src="/final_logo.png" width="90" height="60" className="d-inline-block align-top"/>&nbsp;
+               <ul className="header-title"><img alt="" src="/final_logo.png" width="100" height="70" className="d-inline-block align-top"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="/"> Barangay Profiling System </a></ul>
                 </Navbar.Brand>
               </Col>
               <Col>
               <Button className="super-user" size="lg" onClick={() => {navigate("/sign-up")}}>
-              S I G N - U P&nbsp;&nbsp;&nbsp;<i className="bi bi-person-plus"></i>
+              Sign-up&nbsp;&nbsp;&nbsp;<i className="bi bi-person-plus"></i>
               </Button>
                {/* <a className="super-user" href="/"> SIGN-UP</a>*/}
               </Col>        

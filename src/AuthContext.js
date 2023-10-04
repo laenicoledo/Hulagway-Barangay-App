@@ -6,8 +6,10 @@ import { auth, db } from './firebase.js';
 //get collections in encoding year
 const yearRef = collection(db, "encoding_year");
 
-//get collection names user from document 2022
+//get collection names user from document 
 const userRef = collection(doc(yearRef,"2022"), "users")
+//const currentYear = new Date().getFullYear();
+//const userRef = collection(doc(yearRef, currentYear.toString()), "users");
 
 const UserContext = createContext();
 

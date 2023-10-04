@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import HeaderLogo from '../HeaderLogo.js'
 import Widgets from '../Widgets.js'
 import SearchBar from '../SearchBar.js'
+import Spinner from 'react-bootstrap/Spinner';
 import BarangayDataService from "../Services/barangay-service.js";
 
 function ResidentProfile() {
@@ -12,6 +13,8 @@ function ResidentProfile() {
     //STATE VARIABLES
     const [barangayExists, setBarangayExists] = useState();
     const [residentList, setResidentdList] = useState([{}]);
+
+     const [isLoading, setIsLoading] = useState(true);
 
     //function to check if current user barangay desig exist in database
     const checkUserBarangay = async () => {
@@ -23,13 +26,18 @@ function ResidentProfile() {
              console.log(barangayRef);
             
              if(barangayRef != null){
+                
+                setIsLoading(true)
+
                 const data = await BarangayDataService.getBarangayByName(barangayRef)
                 setBarangayExists(true)
                 //await getZones();
+
+                setIsLoading(false);
              }else{
               setBarangayExists(false)
-              //alert("Barangay data currently unavailable. Please proceed to Setup Barangay tab.")
               console.log("barangay data not available")
+              setIsLoading(false);
              }
         }catch (e) {
              return console.log(e);
@@ -46,7 +54,7 @@ function ResidentProfile() {
           <header>
             <HeaderLogo/>
           </header>
-          <br/><br/><br/>
+          <br/>
            <nav>
             <Nav variant="pills" defaultActiveKey="/resident-profile" fill>
                 <Nav.Item>
@@ -70,12 +78,22 @@ function ResidentProfile() {
                 </Nav>
           
           </nav>
-          <aside>
+          {/*<aside>
             <Widgets/>
             <br/><br/>
-          </aside>
+          </aside>*/}
           <br/>
           <main>
+
+             {isLoading ? (
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                    <br/><br/><br/><br/><br/>
+                    <Spinner animation="grow"/>
+                      <br/>
+                    <h2>Loading...</h2>
+                  </div>
+            ) : (<>
+
              {barangayExists ? (
                   <div>
                       
@@ -91,7 +109,9 @@ function ResidentProfile() {
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
                 </div>
-              )} 
+              )}
+            </>
+            )} 
           </main>
         </div>
     );
